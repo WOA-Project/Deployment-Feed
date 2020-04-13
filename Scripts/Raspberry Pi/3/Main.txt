@@ -2,7 +2,7 @@
 [Requirement:WimImageIndex]
 [Requirement:Disk]
 
-packages = "..\..\..\..\Downloaded\Packages";
+packages = "..\..\..\..\Packages";
 
 <Fetching resources>
 Unzip(GitHub("andreiw", "RaspberryPiPkg"), "{packages}");
