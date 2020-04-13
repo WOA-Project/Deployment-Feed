@@ -1,0 +1,9 @@
+﻿<Deploying Windows>
+
+systemRoot = GetPartitionRoot("{systemPart}");
+windowsRoot = GetPartitionRoot("{windowsPart}");
+
+ApplyWindowsImage("{WimFile}", "{WimImageIndex}", "{windowsRoot}");
+MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
+SetGptType("{systemPart}", "Esp");
+CopyDirectory("{dppRoot}", "{windowsRoot}\DPP");

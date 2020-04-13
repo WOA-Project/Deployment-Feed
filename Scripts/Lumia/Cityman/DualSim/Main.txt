@@ -1,0 +1,16 @@
+﻿[Requirement:WimFile]
+[Requirement:WimImageIndex]
+[Requirement:Disk]
+
+repo = "https://github.com/WOA-Project/Lumia-Drivers";
+uefiRepo = "https://github.com/WOA-Project/Lumia950XLPkg";
+efiEsp = "Disk={Disk}, Name='EFIESP'";
+efiEspRoot = GetPartitionRoot("{efiEsp}");
+dppRoot = GetPartitionRoot("Disk={Disk}, Name='DPP'");
+packages = "..\..\..\..\..\Downloaded\Packages";
+
+!"Fetch.txt";
+!"ConfigureBoot.txt";
+!"PrepareDisk.txt";
+!"DeployWindows.txt";
+!"InjectDrivers.txt";

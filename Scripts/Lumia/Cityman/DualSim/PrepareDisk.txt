@@ -1,0 +1,10 @@
+﻿<Preparing partition layout>
+RemoveGptPartitions("{Disk}","SYSTEM;MSR;Windows");
+AllocateSpace("{Disk}", "DATA", 16);
+CreateWindowsPartitionLayout("{Disk}");
+
+systemPart = "Disk={Disk}, Name='System'";
+windowsPart = "Disk={Disk}, Name='Windows'";
+
+Format("{systemPart}", "Fat32", "SYSTEM");
+Format("{windowsPart}", "Ntfs", "Windows");
