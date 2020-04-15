@@ -1,6 +1,3 @@
-windowsPart = "Disk={Disk}, Name='Windows'";
-windowsRoot = GetPartitionRoot("{windowsPart}");
-
 systemPart = "Disk={Disk}, Name='SYSTEM'";
 systemRoot = GetPartitionRoot("{systemPart}");
 
