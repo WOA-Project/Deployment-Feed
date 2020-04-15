@@ -1,0 +1,8 @@
+windowsPart = "Disk={Disk}, Name='Windows'";
+windowsRoot = GetPartitionRoot("{windowsPart}");
+
+systemPart = "Disk={Disk}, Name='SYSTEM'";
+systemRoot = GetPartitionRoot("{systemPart}");
+
+efiEspPart = "Disk={Disk}, Name='EFIESP'";
+efiEspRoot = GetPartitionRoot("{efiEspPart}");

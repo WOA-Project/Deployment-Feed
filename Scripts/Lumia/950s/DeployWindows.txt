@@ -1,0 +1,5 @@
+﻿<Deploying Windows>
+
+ApplyWindowsImage("{WimFile}", "{WimImageIndex}", "{windowsRoot}");
+MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
+SetGptType("{systemPart}", "Esp");
