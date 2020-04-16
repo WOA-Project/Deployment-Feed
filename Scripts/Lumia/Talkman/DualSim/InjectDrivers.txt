@@ -1,0 +1,31 @@
+﻿<Downloading drivers>
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.INPUT.SYNAPTICS_RMI4_F12_10.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.SOC_QC8994.TALKMAN.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.USB.MMO_USBC.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC8994.MMO.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC8994.MMO_SOC8992.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.BASE.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.MMO.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.SOC8992.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.SOC8994AB.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.BASE.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.EXTRAS.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MMO_EXTRAS.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_BRIDGE.zip"), "{packages}");
+Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_COMPONENTS.zip"), "{packages}");
+
+<Injecting Drivers>
+InjectDrivers("{windowsRoot}", "{packages}\DEVICE.INPUT.SYNAPTICS_RMI4_F12_10");
+InjectDrivers("{windowsRoot}", "{packages}\DEVICE.SOC_QC8994.CITYMAN");
+InjectDrivers("{windowsRoot}", "{packages}\DEVICE.USB.MMO_USBC");
+InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO");
+InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO_SOC8994");
+InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.BASE");
+InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.MMO");
+InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.SOC8994");
+InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.SOC8994AB");
+InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.BASE");
+InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.EXTRAS");
+InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MMO_EXTRAS");
+InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_BRIDGE");
+InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_COMPONENTS");

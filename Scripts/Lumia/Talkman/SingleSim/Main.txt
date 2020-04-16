@@ -1,0 +1,16 @@
+﻿[Requirement:WimFile]
+[Requirement:WimImageIndex]
+[Requirement:Disk]
+
+!"..\..\..\Common.txt";
+!"..\..\950s\Common.txt";
+!"..\..\ShowReadme.txt";
+!"..\..\950s\InstallDevMenu.txt";
+!"..\..\950s\PrepareDisk.txt";
+!"..\..\950s\DeployWindows.txt";
+!"InjectDrivers.txt";
+!"..\..\950s\InstallBootShim.txt";
+!"InstallUefi.txt";
+!"InjectDrivers.txt";
+!"..\..\950s\CopyDpp.txt";
+!"..\..\950s\ConfigureBcd.txt";
