@@ -11,6 +11,5 @@
 !"InjectDrivers.txt";
 !"..\..\950s\InstallBootShim.txt";
 !"InstallUefi.txt";
-!"InjectDrivers.txt";
 !"..\..\950s\CopyDpp.txt";
 !"..\..\950s\ConfigureBcd.txt";
