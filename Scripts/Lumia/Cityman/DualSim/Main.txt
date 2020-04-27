@@ -2,7 +2,6 @@
 [Requirement:WimImageIndex]
 [Requirement:Disk]
 
-!"..\..\..\Common.txt";
 !"..\..\950s\Common.txt";
 !"..\..\ShowReadme.txt";
 !"..\..\950s\InstallDevMenu.txt";

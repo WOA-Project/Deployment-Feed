@@ -1,2 +1,5 @@
+packages = "..\..\..\..\..\Feed\Packages";
+extras =   "..\..\..\..\..\Feed\Extras";
+
 efiEspPart = "Disk={Disk}, Name='EFIESP'";
 efiEspRoot = GetPartitionRoot("{efiEspPart}");
