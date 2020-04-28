@@ -14,6 +14,7 @@ Unzip(GitHub("driver1998", "bsp"), "{packages}\Drivers", "BSP");
 
 DisplayMarkdown("{packages}\Drivers\USB\license.md");
 
+<Preparing disk layout>
 Flash("..\..\..\..\Core\gpt.zip", "{Disk}");
 windowsPart = CreatePartitionUsingAvailableSpace("{Disk}", "NTFS", "Windows");
 Format("{windowsPart}", "Ntfs", "Windows");
