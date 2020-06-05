@@ -1,5 +1,9 @@
 ﻿<Preparing partition layout>
-RemoveGptPartitions("{Disk}","SYSTEM;MSR;Windows");
+
+RemovePartition("{Disk}, Name=SYSTEM");
+RemovePartition("{Disk}, Name=MSR");
+RemovePartition("{Disk}, Name=Windows");
+
 AllocateSpace("{Disk}", "DATA", 16);
 CreateWindowsPartitionLayout("{Disk}");
 
