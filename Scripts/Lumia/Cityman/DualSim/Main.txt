@@ -1,14 +1,19 @@
-﻿[Requirement:WimFile]
-[Requirement:WimImageIndex]
-[Requirement:Disk]
+﻿[Requirement:SdCard]
 
-!"..\..\950s\Common.txt";
-!"..\..\ShowReadme.txt";
-!"..\..\950s\InstallDevMenu.txt";
-!"..\..\950s\PrepareDisk.txt";
-!"..\..\950s\DeployWindows.txt";
-!"InjectDrivers.txt";
-!"..\..\950s\InstallBootShim.txt";
-!"InstallUefi.txt";
-!"..\..\950s\CopyDpp.txt";
-!"..\..\950s\ConfigureBcd.txt";
+packages = "..\..\..\..\..\Feed\Packages";
+extras =   "..\..\..\..\..\Feed\Extras";
+
+<Creating partition layout>
+SetPartitionLayout("{SdCard}", "GPT");
+bootstrapPart = CreateGptPartition("{SdCard}", "Basic", "100MB");
+CreateGptPartition("{SdCard}", "ESP", "100MB");
+CreateGptPartition("{SdCard}", "Reserved", "128MB");
+windowsPart = CreateGptPartition("{SdCard}", "Basic");
+
+<Formatting partitions>
+Format("{bootstrapPart}", "FAT", "Bootstrap");
+
+<Setting up Boostrap>
+sdRoot = GetPartitionRoot("{bootstrapPart}");
+Unzip("{extras}\Lumia\Bootpack.zip", "{packages}");
+CopyDirectory("{packages}\Bootpack", "{sdRoot}\");
