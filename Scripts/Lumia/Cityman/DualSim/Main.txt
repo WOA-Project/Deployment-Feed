@@ -1,36 +1,14 @@
-﻿[Requirement:SdCard]
+﻿[Requirement:WimFile]
 [Requirement:WimImageIndex]
-[Requirement:WimFile]
+[Requirement:Disk]
 
-packages = "..\..\..\..\..\Feed\Packages";
-extras =   "..\..\..\..\..\Feed\Extras";
-
-<Readme>
+!"..\..\950s\Common.txt";
 !"..\..\ShowReadme.txt";
-
-<Creating partition layout>
-SetPartitionLayout("{SdCard}", "GPT");
-bootstrapPart = CreateGptPartition("{SdCard}", "Basic", "100MB");
-systemPart = CreateGptPartition("{SdCard}", "Basic", "100MB");
-CreateGptPartition("{SdCard}", "Reserved", "128MB");
-windowsPart = CreateGptPartition("{SdCard}", "Basic");
-
-<Formatting partitions>
-Format("{bootstrapPart}", "FAT", "Bootstrap");
-Format("{systemPart}", "FAT32", "System");
-Format("{windowsPart}", "NTFS", "Windows");
-
-<Setting up Boostrap>
-sdRoot = GetPartitionRoot("{bootstrapPart}");
-Unzip("{extras}\Lumia\Bootpack.zip", "{packages}");
-CopyDirectory("{packages}\Bootpack", "{sdRoot}\");
-
-systemRoot = GetPartitionRoot("{systemPart}");
-windowsRoot = GetPartitionRoot("{windowsPart}"); 
-
-<Deploying Windows>
-ApplyWindowsImage("{WimFile}", "{WimImageIndex}", "{windowsRoot}");
-MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
-SetGptType("{systemPart}", "ESP");
-
+!"..\..\950s\InstallDevMenu.txt";
+!"..\..\950s\PrepareDisk.txt";
+!"..\..\950s\DeployWindows.txt";
 !"InjectDrivers.txt";
+!"..\..\950s\InstallBootShim.txt";
+!"InstallUefi.txt";
+!"..\..\950s\CopyDpp.txt";
+!"..\..\950s\ConfigureBcd.txt";

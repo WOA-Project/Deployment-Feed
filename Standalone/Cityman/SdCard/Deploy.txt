@@ -1,0 +1,38 @@
+﻿[Requirement:SdCard]
+[Requirement:WimImageIndex]
+[Requirement:WimFile]
+
+packages = "..\..\..\..\..\Feed\Packages";
+extras =   "..\..\..\..\..\Feed\Extras";
+
+<Readme>
+!"..\..\ShowReadme.txt";
+
+<Creating partition layout>
+SetPartitionLayout("{SdCard}", "GPT");
+bootstrapPart = CreateGptPartition("{SdCard}", "Basic", "100MB");
+systemPart = CreateGptPartition("{SdCard}", "Basic", "100MB");
+CreateGptPartition("{SdCard}", "Reserved", "128MB");
+windowsPart = CreateGptPartition("{SdCard}", "Basic");
+
+<Formatting partitions>
+Format("{bootstrapPart}", "FAT", "Bootstrap");
+Format("{systemPart}", "FAT32", "System");
+Format("{windowsPart}", "NTFS", "Windows");
+
+<Setting up Boostrap>
+sdRoot = GetPartitionRoot("{bootstrapPart}");
+Unzip("{extras}\Lumia\Bootpack.zip", "{packages}");
+CopyDirectory("{packages}\Bootpack", "{sdRoot}\");
+
+systemRoot = GetPartitionRoot("{systemPart}");
+windowsRoot = GetPartitionRoot("{windowsPart}"); 
+
+<Deploying Windows>
+ApplyWindowsImage("{WimFile}", "{WimImageIndex}", "{windowsRoot}");
+MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
+SetGptType("{systemPart}", "ESP");
+
+<Copying DPP>
+//!"..\..\950s\CopyDpp.txt";
+!"InjectDrivers.txt";
