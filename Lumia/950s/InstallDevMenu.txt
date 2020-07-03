@@ -1,6 +1,6 @@
 <Installing Developer Menu>
 
-CopyDirectory("{extras}\Lumia\Developer Menu", "{efiEspRoot}\Windows\System32\BOOT");
+CopyDirectory("{content}\Developer Menu", "{efiEspRoot}\Windows\System32\BOOT");
 
 devMenuGuid = "7619dccc-fafe-11d9-b411-000476eba25f";
 efiBcdStore = "{efiEspRoot}\EFI\Microsoft\Boot\BCD";

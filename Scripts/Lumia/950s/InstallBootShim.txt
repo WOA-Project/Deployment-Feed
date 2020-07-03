@@ -1,3 +1,0 @@
-<Installing UEFI Loader>
-
-Copy("{extras}\Lumia\BootShim.efi", "{efiEspRoot}\EFI\Boot\BootShim.efi");
