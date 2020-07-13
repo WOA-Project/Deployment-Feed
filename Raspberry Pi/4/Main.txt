@@ -2,19 +2,17 @@
 [Requirement:WimImageIndex]
 [Requirement:Disk]
 
-packages = "..\..\..\..\Feed\Packages";
-extras =   "..\..\..\..\Feed\Extras";
+packages = "Packages";
 
 <Fetching resources>
-Unzip(GitHub("andreiw", "RaspberryPiPkg"), "{packages}", "RaspberryPiPkg");
+Unzip("https://github.com/pftf/RPi4/releases/download/v1.13/RPi4_UEFI_Firmware_v1.13.zip", "{packages}", "UEFI");
 Unzip("http://ww1.microchip.com/downloads/en//softwarelibrary/obj-lan95xx-windows/lan9500-wdf-v18.12.18.0.zip", "{packages}\Drivers", "LAN95XX");
 Unzip("http://ww1.microchip.com/downloads/en//softwarelibrary/obj-lan78xx-windows/lan7800-wdf-v18.12.14.0.zip", "{packages}\Drivers", "LAN78XX");
-Unzip("https://pi64.win/wp-content/uploads/2019/02/usb-drivers.zip", "{packages}\Drivers", "USB");
+Unzip("https://pi64.win/wp-packages/uploads/2019/02/usb-drivers.zip", "{packages}\Drivers", "USB");
 Unzip(GitHub("driver1998", "bsp"), "{packages}\Drivers", "BSP");
 
 DisplayMarkdown("{packages}\Drivers\USB\license.md");
 
-<Preparing disk layout>
 Flash("..\..\..\..\Core\gpt.zip", "{Disk}");
 windowsPart = CreatePartitionUsingAvailableSpace("{Disk}", "NTFS", "Windows");
 Format("{windowsPart}", "Ntfs", "Windows");
@@ -25,12 +23,12 @@ windowsRoot = GetPartitionRoot("Disk={Disk}, Label='Windows'");
 systemRoot = GetPartitionRoot("{systemPart}");
 
 <Copying UEFI>
-CopyDirectory(DateConventionDirectoryMostRecent("{packages}\RaspberryPiPkg\Binary\prebuilt"), "{packages}\UEFI");
-CopyDirectory("{packages}\UEFI\RELEASE", "{systemRoot}");
+CopyDirectory("{packages}\UEFI", "{systemRoot}");
 
 <Deploying Windows>
 ApplyWindowsImage("{WimFile}", "{WimImageIndex}", "{windowsRoot}");
 MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
+BcdEdit("{systemRoot}", "/set {default} truncatememory 0x40000000");
 SetGptType("{systemPart}", "Esp");
 
 <Injecting drivers>
