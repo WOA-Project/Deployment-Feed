@@ -1,33 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DeployerStore xmlns:exs="https://extendedxmlserializer.github.io/v2" xmlns:sys="https://extendedxmlserializer.github.io/system" xmlns="clr-namespace:Deployer.Core;assembly=Deployer.Core">
     <Devices exs:type="sys:List[Device]">
-        <Capacity>4</Capacity>
-        <Device>
+        <Capacity>8</Capacity>
+        <Device exs:identity="1">
             <Code>CitymanSS</Code>
-            <FriendlyName>Lumia 950 XL - Single SIM</FriendlyName>
+            <FriendlyName>Lumia 950 - Single SIM</FriendlyName>
             <Model>Cityman</Model>
             <Variant exs:member="">Single SIM</Variant>
             <Icon>https://www.gadgets4geeks.com.au/WebRoot/Store/Shops/gadgets4geeks/Categories/gadgets-by-brand/Microsoft/Microsoft_Lumia_950_XL/00-microsoft-lumia-950-xl-accessories_m.png</Icon>
         </Device>
-        <Device exs:identity="1">
+        <Device exs:identity="2">
             <Code>CitymanDS</Code>
-            <FriendlyName>Lumia 950 XL - Dual SIM</FriendlyName>
+            <FriendlyName>Lumia 950 - Dual SIM</FriendlyName>
             <Model>Cityman</Model>
             <Variant exs:member="">Dual SIM</Variant>
             <Icon>https://www.gadgets4geeks.com.au/WebRoot/Store/Shops/gadgets4geeks/Categories/gadgets-by-brand/Microsoft/Microsoft_Lumia_950_XL/00-microsoft-lumia-950-xl-accessories_m.png</Icon>
         </Device>
-        <Device>
+        <Device exs:identity="3">
+            <Code>TalkmanSS</Code>
+            <FriendlyName>Lumia 950 XL - Single SIM</FriendlyName>
+            <Model>Cityman</Model>
+            <Variant exs:member="">Single SIM</Variant>
+            <Icon>https://www.billiger-telefonieren.de/bilder/microsoft-lumia-950_0101w300_9112.png</Icon>
+        </Device>
+        <Device exs:identity="4">
+            <Code>TalkmanDS</Code>
+            <FriendlyName>Lumia 950 XL - Dual SIM</FriendlyName>
+            <Model>Cityman</Model>
+            <Variant exs:member="">Dual SIM</Variant>
+            <Icon>https://www.billiger-telefonieren.de/bilder/microsoft-lumia-950_0101w300_9112.png</Icon>
+        </Device>
+        <Device exs:identity="5">
             <Code>RaspberryPi3</Code>
             <FriendlyName>Raspberry Pi 3</FriendlyName>
+            <Icon>https://files1.element14.com/community/themes/images/raspberrypi/faq_pi3.png</Icon>
+        </Device>
+        <Device exs:identity="6">
+            <Code>RaspberryPi4</Code>
+            <FriendlyName>Raspberry Pi 4</FriendlyName>
             <Icon>https://files1.element14.com/community/themes/images/raspberrypi/faq_pi3.png</Icon>
         </Device>
     </Devices>
     <Deployments exs:type="sys:List[Deployment]">
         <Capacity>4</Capacity>
         <Deployment>
-            <Device exs:member="" exs:reference="1" />
-            <ScriptPath>Devices\Lumia\950s\Cityman\CardInstall\Main.txt</ScriptPath>
-            <Description>MicroSD Deployment</Description>
+            <Devices exs:type="Device^1">
+                <Device exs:reference="2" />
+                <Device exs:reference="1" />
+            </Devices>
+            <ScriptPath>Devices\Lumia\Cityman\CardInstall\Main.txt</ScriptPath>
+            <Title>Lumia 950 XL (eMMC)</Title>
+            <Description>Deploys WOA into the phone's internal memory</Description>
+        </Deployment>
+        <Deployment>
+            <Devices exs:type="Device^1">
+                <Device exs:reference="3" />
+                <Device exs:reference="4" />
+            </Devices>
+            <ScriptPath>Devices\Lumia\Talkman\Main.txt</ScriptPath>
+            <Title>Lumia 950 (eMMC)</Title>
+            <Description>Deploys WOA into the phone's internal memory</Description>
+        </Deployment>
+        <Deployment>
+            <Devices exs:type="Device^1">
+                <Device exs:reference="5" />
+            </Devices>
+            <ScriptPath>Devices\Raspberry Pi 3\Main.txt</ScriptPath>
+            <Title>Raspberry Pi 3</Title>
+            <Description>For Model B/B+</Description>
+        </Deployment>
+        <Deployment>
+            <Devices exs:type="Device^1">
+                <Device exs:reference="6" />
+            </Devices>
+            <ScriptPath>Devices\Raspberry Pi 4\Main.txt</ScriptPath>
+            <Title>Raspberry Pi 4</Title>
+            <Description>For Model B/B+</Description>
         </Deployment>
     </Deployments>
 </DeployerStore>
