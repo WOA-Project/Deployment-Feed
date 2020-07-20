@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeployerStore xmlns:exs="https://extendedxmlserializer.github.io/v2" xmlns:sys="https://extendedxmlserializer.github.io/system" xmlns="clr-namespace:Deployer.Core;assembly=Deployer.Core">
+    <Devices exs:type="sys:List[Device]">
+        <Capacity>4</Capacity>
+        <Device>
+            <Code>CitymanSS</Code>
+            <FriendlyName>Lumia 950 XL - Single SIM</FriendlyName>
+            <Model>Cityman</Model>
+            <Variant exs:member="">Single SIM</Variant>
+            <Icon>https://www.gadgets4geeks.com.au/WebRoot/Store/Shops/gadgets4geeks/Categories/gadgets-by-brand/Microsoft/Microsoft_Lumia_950_XL/00-microsoft-lumia-950-xl-accessories_m.png</Icon>
+        </Device>
+        <Device exs:identity="1">
+            <Code>CitymanDS</Code>
+            <FriendlyName>Lumia 950 XL - Dual SIM</FriendlyName>
+            <Model>Cityman</Model>
+            <Variant exs:member="">Dual SIM</Variant>
+            <Icon>https://www.gadgets4geeks.com.au/WebRoot/Store/Shops/gadgets4geeks/Categories/gadgets-by-brand/Microsoft/Microsoft_Lumia_950_XL/00-microsoft-lumia-950-xl-accessories_m.png</Icon>
+        </Device>
+        <Device>
+            <Code>RaspberryPi3</Code>
+            <FriendlyName>Raspberry Pi 3</FriendlyName>
+            <Icon>https://files1.element14.com/community/themes/images/raspberrypi/faq_pi3.png</Icon>
+        </Device>
+    </Devices>
+    <Deployments exs:type="sys:List[Deployment]">
+        <Capacity>4</Capacity>
+        <Deployment>
+            <Device exs:member="" exs:reference="1" />
+            <ScriptPath>Devices\Lumia\950s\Cityman\CardInstall\Main.txt</ScriptPath>
+            <Description>MicroSD Deployment</Description>
+        </Deployment>
+    </Deployments>
+</DeployerStore>
