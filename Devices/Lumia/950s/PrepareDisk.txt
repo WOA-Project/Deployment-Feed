@@ -1,8 +1,8 @@
 ﻿<Preparing partition layout>
 
-RemovePartition("Disk={Disk}, Name='SYSTEM'");
 RemovePartition("Disk={Disk}, Name='MSR'");
 RemovePartition("Disk={Disk}, Name='Windows'");
+RemovePartition("Disk={Disk}, Name='SYSTEM'");
 
 AllocateSpace("{Disk}", "DATA", 16);
 CreateWindowsPartitionLayout("{Disk}");

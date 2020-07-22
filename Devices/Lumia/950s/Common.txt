@@ -1,5 +1,5 @@
 packages = "Packages";
-content =   "..\..\..\..\Feed\Lumia\Content";
+content =   "..\..\..\..\Devices\Lumia\Content";
 
 efiEspPart = "Disk={Disk}, Name='EFIESP'";
 efiEspRoot = GetPartitionRoot("{efiEspPart}");
