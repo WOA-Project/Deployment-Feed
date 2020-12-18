@@ -55,7 +55,7 @@
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/emmc.png?raw=true</Icon>
       <Description>Deploys WOA into the phone's internal memory</Description>
     </Deployment>
-    <Deployment>
+    <!--<Deployment>
       <Devices exs:type="Device^1" exs:reference="1" />
       <ScriptPath>Devices\Lumia\950s\Cityman\CardInstall\Main.txt</ScriptPath>
       <Title>Lumia 950 XL (MicroSD)</Title>
@@ -89,6 +89,6 @@
       <Title>Raspberry Pi 4</Title>
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true</Icon>
       <Description>For Model B/B+</Description>
-    </Deployment>
+    </Deployment>-->
   </Deployments>
 </DeployerStore>
