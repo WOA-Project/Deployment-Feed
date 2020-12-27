@@ -45,7 +45,7 @@
   </Devices>
   <Deployments exs:type="sys:List[Deployment]">
     <Capacity>8</Capacity>
-    <Deployment>
+    <Deployment Id="1">
       <Devices exs:type="Device^1" exs:identity="1">
         <Device exs:entity="1" />
         <Device exs:entity="2" />
