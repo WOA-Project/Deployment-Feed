@@ -1,6 +1,0 @@
-<Copying DPP to Windows>
-
-dpp = "Disk={Disk}, Name='DPP'";
-dppRoot = GetPartitionRoot("{dpp}");
-CopyDirectory("{dppRoot}", "{windowsRoot}\DPP");
-Unmount("{dpp}");

@@ -1,5 +1,0 @@
-packages = "Packages";
-content =   "..\..\..\..\Devices\Lumia\Content";
-
-efiEspPart = "Disk={Disk}, Name='EFIESP'";
-efiEspRoot = GetPartitionRoot("{efiEspPart}");

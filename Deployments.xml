@@ -8,7 +8,7 @@
       <Name>Lumia 950 XL</Name>
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/lumia950xl.png?raw=true</Icon>
     </Device>
-    <!--<Device Id="2">
+    <Device Id="2">
       <Code>Talkman</Code>
       <FriendlyName>Lumia 950</FriendlyName>
       <Name>Lumia 950</Name>
@@ -25,7 +25,8 @@
       <FriendlyName>Raspberry Pi 4</FriendlyName>
       <Name>Raspberry Pi 4</Name>
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/rpi4.png?raw=true</Icon>
-    </Device>-->
+    </Device>
+    
   </Devices>
   <Deployments exs:type="sys:List[Deployment]">
     <Capacity>8</Capacity>
@@ -38,40 +39,32 @@
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/emmc.png?raw=true</Icon>
       <Description>Deploys WOA into the phone's internal memory (eMMC)</Description>
     </Deployment>
-    <!--<Deployment>
-      <Devices exs:type="Device^1" exs:reference="1" />
-      <ScriptPath>Devices\Lumia\950s\Cityman\CardInstall\Main.txt</ScriptPath>
-      <Title>Lumia 950 XL (MicroSD)</Title>
-      <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true</Icon>
-      <Description>Deploys WOA into a MicroSD card</Description>
-    </Deployment>
-    <Deployment>
+    <Deployment Id="2">
       <Devices exs:type="Device^1">
-        <Device exs:entity="3" />
-        <Device exs:entity="4" />
+        <Device exs:entity="2" />
       </Devices>
       <ScriptPath>Devices\Lumia\950s\Talkman\Main.txt</ScriptPath>
-      <Title>Lumia 950 (eMMC)</Title>
+      <Title>Stardard</Title>
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/emmc.png?raw=true</Icon>
-      <Description>Deploys WOA into the phone's internal memory</Description>
+      <Description>Deploys WOA into the phone's internal memory (eMMC)</Description>
     </Deployment>
-    <Deployment>
+    <Deployment Id="3">
       <Devices exs:type="Device^1">
-        <Device exs:entity="5" />
+        <Device exs:entity="3" />
       </Devices>
       <ScriptPath>Devices\Raspberry Pi 3\Main.txt</ScriptPath>
-      <Title>Raspberry Pi 3</Title>
+      <Title>Stardard</Title>
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true</Icon>
       <Description>For Model B/B+</Description>
     </Deployment>
-    <Deployment>
+    <Deployment Id="4">
       <Devices exs:type="Device^1">
-        <Device exs:entity="6" />
+        <Device exs:entity="4" />
       </Devices>
       <ScriptPath>Devices\Raspberry Pi 4\Main.txt</ScriptPath>
-      <Title>Raspberry Pi 4</Title>
+      <Title>Stardard</Title>
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true</Icon>
-      <Description>For Model B/B+</Description>
-    </Deployment>-->
+      <Description>For Model B</Description>
+    </Deployment>
   </Deployments>
 </DeployerStore>

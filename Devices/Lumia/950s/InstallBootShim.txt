@@ -1,3 +1,0 @@
-<Installing UEFI Loader>
-
-Copy("{content}\BootShim.efi", "{efiEspRoot}\EFI\Boot\BootShim.efi");
