@@ -1,39 +1,42 @@
-﻿[Requirement:WimFile]
-[Requirement:WimImageIndex]
-[Requirement:Disk]
+// Requires WimFile "WimFile" As "Windows Image"
+// Requires Disk "Disk" As "Micro SD"
 
-packages = "Packages";
-
-<Fetching resources>
-Unzip(GitHub("andreiw", "RaspberryPiPkg"), "{packages}", "RaspberryPiPkg");
-Unzip("http://ww1.microchip.com/downloads/en//softwarelibrary/obj-lan95xx-windows/lan9500-wdf-v18.12.18.0.zip", "{packages}\Drivers", "LAN95XX");
-Unzip("http://ww1.microchip.com/downloads/en//softwarelibrary/obj-lan78xx-windows/lan7800-wdf-v18.12.14.0.zip", "{packages}\Drivers", "LAN78XX");
-Unzip("https://pi64.win/wp-packages/uploads/2019/02/usb-drivers.zip", "{packages}\Drivers", "USB");
-Unzip(GitHub("driver1998", "bsp"), "{packages}\Drivers", "BSP");
-
-DisplayMarkdown("{packages}\Drivers\USB\license.md");
-
-<Preparing disk layout>
-Flash("..\..\..\..\Core\gpt.zip", "{Disk}");
-windowsPart = CreatePartitionUsingAvailableSpace("{Disk}", "NTFS", "Windows");
-Format("{windowsPart}", "Ntfs", "Windows");
-
-systemPart = "Disk={Disk}, Label='EFIESP'";
-
-windowsRoot = GetPartitionRoot("Disk={Disk}, Label='Windows'");
-systemRoot = GetPartitionRoot("{systemPart}");
-
-<Copying UEFI>
-CopyDirectory(DateConventionDirectoryMostRecent("{packages}\RaspberryPiPkg\Binary\prebuilt"), "{packages}\UEFI");
-CopyDirectory("{packages}\UEFI\RELEASE", "{systemRoot}");
-
-<Deploying Windows>
-ApplyWindowsImage("{WimFile}", "{WimImageIndex}", "{windowsRoot}");
-MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
-SetGptType("{systemPart}", "Esp");
-
-<Injecting drivers>
-InjectDrivers("{windowsRoot}", "{packages}\Drivers\BSP\prebuilt");
-InjectDrivers("{windowsRoot}", "{packages}\Drivers\LAN95XX\ndis650\arm64");
-InjectDrivers("{windowsRoot}", "{packages}\Drivers\LAN78XX\ndis650\arm64");
-InjectDrivers("{windowsRoot}", "{packages}\Drivers\USB");
+Main
+{
+	packages = "Packages";
+	content = "..\Content";
+	
+	<Fetching resources>
+	Unzip("http://ww1.microchip.com/downloads/en//softwarelibrary/obj-lan95xx-windows/lan9500-wdf-v18.12.18.0.zip", "{packages}\Drivers", "LAN95XX");
+	Unzip("http://ww1.microchip.com/downloads/en//softwarelibrary/obj-lan78xx-windows/lan7800-wdf-v18.12.14.0.zip", "{packages}\Drivers", "LAN78XX");
+	Unzip("https://pi64.win/wp-content/uploads/2019/02/usb-drivers.zip", "{packages}\Drivers", "USB");
+	Unzip(GitHub("andreiw", "RaspberryPiPkg"), "{packages}", "RaspberryPiPkg");
+	Unzip(GitHub("driver1998", "bsp"), "{packages}\Drivers", "BSP");
+	
+	DisplayMarkdown("{packages}\Drivers\USB\license.md");
+	
+	<Preparing disk layout>
+	Flash("{content}\gpt.zip", "{Disk}");
+	windowsPart = CreateGptPartition("{Disk}", "Basic");
+	Format("{windowsPart}", "Ntfs", "Windows");
+	
+	systemPart = "Disk={Disk}, Label='EFIESP'";
+	
+	windowsRoot = GetPartitionRoot("Disk={Disk}, Label='Windows'");
+	systemRoot = GetPartitionRoot("{systemPart}");
+	
+	<Copying UEFI>
+	CopyDirectory(DateConventionDirectoryMostRecent("{packages}\RaspberryPiPkg\Binary\prebuilt"), "{packages}\UEFI");
+	CopyDirectory("{packages}\UEFI\RELEASE", "{systemRoot}");
+	
+	<Deploying Windows>
+	ApplyWindowsImage("{WimFilePath}", "{WimFileIndex}", "{windowsRoot}");
+	MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
+	SetGptType("{systemPart}", "Esp");
+	
+	<Injecting drivers>
+	InjectDrivers("{windowsRoot}", "{packages}\Drivers\BSP\prebuilt");
+	InjectDrivers("{windowsRoot}", "{packages}\Drivers\LAN95XX\ndis650\arm64");
+	InjectDrivers("{windowsRoot}", "{packages}\Drivers\LAN78XX\ndis650\arm64");
+	InjectDrivers("{windowsRoot}", "{packages}\Drivers\USB");
+}   
