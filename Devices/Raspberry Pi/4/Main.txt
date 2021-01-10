@@ -17,7 +17,7 @@ Main
 
 	<Preparing disk layout>
 	Flash("..\..\..\..\Core\gpt.zip", "{Disk}");
-	windowsPart = CreatePartitionUsingAvailableSpace("{Disk}", "NTFS", "Windows");
+	windowsPart = CreateGptPartition("{Disk}", "Basic");
 	Format("{windowsPart}", "Ntfs", "Windows");
 
 	systemPart = "Disk={Disk}, Label='EFIESP'";
