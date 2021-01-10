@@ -26,8 +26,7 @@ Main
 	systemRoot = GetPartitionRoot("{systemPart}");
 
 	<Copying UEFI>
-	CopyDirectory(DateConventionDirectoryMostRecent("{packages}\RaspberryPiPkg\Binary\prebuilt"), "{packages}\UEFI");
-	CopyDirectory("{packages}\UEFI\RELEASE", "{systemRoot}");
+	CopyDirectory("{packages}\UEFI", "{systemRoot}");
 
 	<Deploying Windows>
 	ApplyWindowsImage("{WimFilePath}", "{WimFileIndex}", "{windowsRoot}");
