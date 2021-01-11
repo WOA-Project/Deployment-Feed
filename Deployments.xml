@@ -65,5 +65,14 @@
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true</Icon>
       <Description>For Model B</Description>
     </Deployment>
+    <Deployment Id="5">
+      <Devices exs:type="Device^1">
+        <Device exs:entity="4" />
+      </Devices>
+      <ScriptPath>Devices\Raspberry Pi\4\New.txt</ScriptPath>
+      <Title>Optimized</Title>
+      <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true</Icon>
+      <Description>Doesn't use GPT.zip, but simple partitioning</Description>
+    </Deployment>
   </Deployments>
 </DeployerStore>
