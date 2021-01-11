@@ -31,7 +31,6 @@ Main
 	<Deploying Windows>
 	ApplyWindowsImage("{WimFilePath}", "{WimFileIndex}", "{windowsRoot}");
 	MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
-	BcdEdit("{systemRoot}", "/set \{default\} truncatememory 0x40000000");
 	SetGptType("{systemPart}", "Esp");
 
 	<Injecting drivers>
