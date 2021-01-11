@@ -26,10 +26,10 @@ InstallDevMenu
 	efiBcdStore = "{efiEspRoot}\EFI\Microsoft\Boot\BCD";
 	
 	BcdEditCreate("{efiBcdStore}", "{devMenuGuid}", "/d 'Developer Menu' /application BOOTAPP");
-	BcdEdit("{efiBcdStore}", "/set {devMenuGuid} path \Windows\System32\BOOT\developermenu.efi");
-	BcdEdit("{efiBcdStore}", "/set {devMenuGuid} device partition={efiEspRoot}");
-	BcdEdit("{efiBcdStore}", "/set {devMenuGuid} nointegritychecks on");
-	BcdEdit("{efiBcdStore}", "/displayorder {{devMenuGuid}} /addlast");
+	BcdEdit("{efiBcdStore}", "/set \{{devMenuGuid}\} path \Windows\System32\BOOT\developermenu.efi");
+	BcdEdit("{efiBcdStore}", "/set \{{devMenuGuid}\} device partition={efiEspRoot}");
+	BcdEdit("{efiBcdStore}", "/set \{{devMenuGuid}\} nointegritychecks on");
+	BcdEdit("{efiBcdStore}", "/displayorder \{{devMenuGuid}\} /addlast");
 }
 
 
@@ -143,20 +143,20 @@ ConfigureBcd
 	efiBcdStore = "{efiEspRoot}\EFI\Microsoft\Boot\BCD";
 	
 	BcdEditCreate("{efiBcdStore}", "{bcdWoa}", "/d 'Windows 10' /application BOOTAPP");
-	BcdEdit("{efiBcdStore}", "/set {bcdWoa} path \EFI\boot\BootShim.efi");
-	BcdEdit("{efiBcdStore}", "/set {bcdWoa} device partition={efiEspRoot}");
-	BcdEdit("{efiBcdStore}", "/set {bcdWoa} nointegritychecks on");
+	BcdEdit("{efiBcdStore}", "/set \{{bcdWoa}\} path \EFI\boot\BootShim.efi");
+	BcdEdit("{efiBcdStore}", "/set \{{bcdWoa}\} device partition={efiEspRoot}");
+	BcdEdit("{efiBcdStore}", "/set \{{bcdWoa}\} nointegritychecks on");
 	
-	BcdEdit("{efiBcdStore}", "/set {bcdWinMobile} path dummy");
-	BcdEdit("{efiBcdStore}", "/set {bcdWinMobile} description 'Dummy, please ignore'");
+	BcdEdit("{efiBcdStore}", "/set \{{bcdWinMobile}\} path dummy");
+	BcdEdit("{efiBcdStore}", "/set \{{bcdWinMobile}\} description 'Dummy, please ignore'");
 	
 	BcdEdit("{efiBcdStore}", "/set \{bootmgr\} displaybootmenu on");
 	BcdEdit("{efiBcdStore}", "/deletevalue \{bootmgr\} customactions");
 	BcdEdit("{efiBcdStore}", "/deletevalue \{bootmgr\} processcustomactionsfirst");
 	
-	BcdEdit("{efiBcdStore}", "/displayorder {bcdWoa}");
-	BcdEdit("{efiBcdStore}", "/displayorder {bcdWinMobile} /addlast");
-	BcdEdit("{efiBcdStore}", "/default {bcdWoa}");
+	BcdEdit("{efiBcdStore}", "/displayorder \{{bcdWoa}\}");
+	BcdEdit("{efiBcdStore}", "/displayorder \{{bcdWinMobile}\} /addlast");
+	BcdEdit("{efiBcdStore}", "/default \{{bcdWoa}\}");
 	BcdEdit("{efiBcdStore}", "/timeout 30");
 }
 
