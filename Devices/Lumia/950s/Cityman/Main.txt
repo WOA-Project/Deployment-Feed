@@ -25,7 +25,7 @@ InstallDevMenu
 	devMenuGuid = "7619dccc-fafe-11d9-b411-000476eba25f";
 	efiBcdStore = "{efiEspRoot}\EFI\Microsoft\Boot\BCD";
 	
-	BcdEditCreate("{efiBcdStore}", "{devMenuGuid}", "/d 'Developer Menu' /application BOOTAPP");
+	BcdEditCreate("{efiBcdStore}", "{devMenuGuid}", "/d ""Developer Menu"" /application BOOTAPP");
 	BcdEdit("{efiBcdStore}", "/set {{{devMenuGuid}}} path \Windows\System32\BOOT\developermenu.efi");
 	BcdEdit("{efiBcdStore}", "/set {{{devMenuGuid}}} device partition={efiEspRoot}");
 	BcdEdit("{efiBcdStore}", "/set {{{devMenuGuid}}} nointegritychecks on");
@@ -170,10 +170,10 @@ Main
 	ShowReadme();
 	InstallDevMenu();
 	ConfigureBcd();
-	//PrepareDisk();
-	//DeployWindows();
-	//InjectDriversProc();
-	//InstallBootShim();
-	//InstallUefi();	
-	//CopyDpp();	
+	PrepareDisk();
+	DeployWindows();
+	InjectDriversProc();
+	InstallBootShim();
+	InstallUefi();	
+	CopyDpp();	
 }
