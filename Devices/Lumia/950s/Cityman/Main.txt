@@ -168,8 +168,8 @@ Main
 
 	Common();
 	ShowReadme();
-	InstallDevMenu();
 	ConfigureBcd();
+	InstallDevMenu();
 	PrepareDisk();
 	DeployWindows();
 	InjectDriversProc();
