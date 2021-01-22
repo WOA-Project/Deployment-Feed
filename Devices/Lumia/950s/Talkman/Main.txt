@@ -41,7 +41,7 @@ PrepareDisk
 	RemovePartition("Disk={Disk}, Name='Windows'");
 	RemovePartition("Disk={Disk}, Name='SYSTEM'");
 	
-	AllocateSpace("{Disk}", "DATA", 16);
+	AllocateSpace("{Disk}", "DATA", 19);
 	CreateWindowsPartitionLayout("{Disk}");
 	
 	systemPart = "Disk={Disk}, Name='SYSTEM'";
