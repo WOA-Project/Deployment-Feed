@@ -1,0 +1,6 @@
+// Requires Disk "Disk" As "Lumia Disk"
+
+Main
+{
+	DisableDualBoot("{Disk}");
+}

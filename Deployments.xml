@@ -74,5 +74,25 @@
       <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true</Icon>
       <Description>Doesn't use GPT.zip, but simple partitioning</Description>
     </Deployment>
+    <Deployment Id="6">
+      <Devices exs:type="Device^1">
+        <Device exs:entity="1" />
+        <Device exs:entity="2" />
+      </Devices>
+      <ScriptPath>Devices\Lumia\950s\EnableDualBoot.txt</ScriptPath>
+      <Title>Enable Dual Boot</Title>
+      <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/emmc.png?raw=true</Icon>
+      <Description>Enables the phone to boot either WOA or Windows 10 Mobile</Description>
+    </Deployment>
+    <Deployment Id="7">
+      <Devices exs:type="Device^1">
+        <Device exs:entity="1" />
+        <Device exs:entity="2" />
+      </Devices>
+      <ScriptPath>Devices\Lumia\950s\DisableDualBoot.txt</ScriptPath>
+      <Title>Disable Dual Boot</Title>
+      <Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/emmc.png?raw=true</Icon>
+      <Description>Disables the Dual Boot capability</Description>
+    </Deployment>
   </Deployments>
 </DeployerStore>

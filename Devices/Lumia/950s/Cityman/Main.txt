@@ -1,5 +1,7 @@
-// Requires WimFile "WimFile" as "Windows Image"
-// Requires Disk "Disk" as "Lumia Disk"
+// Requires WimFile "WimFile" As "Windows Image"
+// Requires Disk "Disk" As "Lumia Disk"
+// Requires DoubleNumber:14:19:25 "DeploymentSize" As "Amount of space (GB) to allocate for the deployment"
+
 
 Common
 {
@@ -41,7 +43,7 @@ PrepareDisk
 	RemovePartition("Disk={Disk}, Name='Windows'");
 	RemovePartition("Disk={Disk}, Name='SYSTEM'");
 	
-	AllocateSpace("{Disk}", "DATA", 19);
+	AllocateSpace("{Disk}", "DATA", "{DeploymentSize}");
 	CreateWindowsPartitionLayout("{Disk}");
 	
 	systemPart = "Disk={Disk}, Name='SYSTEM'";
@@ -162,10 +164,7 @@ ConfigureBcd
 
 Main
 {
-	packages = "Packages";
-	windowsPart = "Disk={Disk}, Name='Windows'";
-	windowsRoot = GetPartitionRoot("{windowsPart}");
-
+	EnsureValidPartitionLayout("{Disk}");
 	Common();
 	ShowReadme();
 	ConfigureBcd();
