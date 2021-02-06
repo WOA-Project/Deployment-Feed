@@ -95,7 +95,7 @@ InjectDriversProc
 	InjectDrivers("{windowsRoot}", "{packages}\DEVICE.SOC_QC8994.CITYMAN");
 	InjectDrivers("{windowsRoot}", "{packages}\DEVICE.USB.MMO_USBC");
 	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO");
-	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO_GRAPHICS");
+	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO_GRAPHICS_DESKTOP");
 	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO_SOC8994");
 	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.8994");
 	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.8994_MINIMAL");
