@@ -88,7 +88,6 @@ InjectDriversProc
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_COMPONENTS.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.PHONE_SERVICE.zip"), "{packages}");
 	
 	<Injecting Drivers>
 	InjectDrivers("{windowsRoot}", "{packages}\DEVICE.INPUT.SYNAPTICS_RMI4_F12_10");
@@ -111,7 +110,6 @@ InjectDriversProc
 	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_COMPONENTS");
 	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_RIL");
 	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS");
-	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.PHONE_SERVICE");
 }
 
 InstallBootShim
