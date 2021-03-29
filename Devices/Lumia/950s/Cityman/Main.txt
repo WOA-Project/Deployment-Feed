@@ -2,7 +2,6 @@
 // Requires Disk "Disk" As "Lumia Disk"
 // Requires DoubleNumber:14:19:25 "DeploymentSize" As "Amount of space (GB) to allocate for the deployment"
 
-
 Common
 {
 	packages = "Packages";
@@ -33,7 +32,6 @@ InstallDevMenu
 	BcdEdit("{efiBcdStore}", "/set {{{devMenuGuid}}} nointegritychecks on");
 	BcdEdit("{efiBcdStore}", "/displayorder {{{devMenuGuid}}} /addlast");
 }
-
 
 PrepareDisk
 {
@@ -68,12 +66,13 @@ DeployWindows
 InjectDriversProc
 {
 	<Downloading drivers>
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.INPUT.SYNAPTICS_RMI4_F12_10.zip"), "{packages}");
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.INPUT.SYNAPTICS_RMI4_F12_WIN10.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.SOC_QC8994.CITYMAN.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.USB.MMO_USBC.zip"), "{packages}");
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.USB.MMO_USBC.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC8994.MMO.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC8994.MMO_GRAPHICS_DESKTOP.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC8994.MMO_SOC8994.zip"), "{packages}");
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC8994.MMO_MINIMAL.zip"), "{packages}");
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "GRAPHICS.SOC_QC8994.MMO_DESKTOP.zip"), "{packages}");
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.CAMERA.MMO_8994.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.8994.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.8994_MINIMAL.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.BASE.zip"), "{packages}");
@@ -88,15 +87,15 @@ InjectDriversProc
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_COMPONENTS.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.PHONE_SERVICE.zip"), "{packages}");
-	
+
 	<Injecting Drivers>
-	InjectDrivers("{windowsRoot}", "{packages}\DEVICE.INPUT.SYNAPTICS_RMI4_F12_10");
+	InjectDrivers("{windowsRoot}", "{packages}\HARDWARE.INPUT.SYNAPTICS_RMI4_F12_WIN10");
 	InjectDrivers("{windowsRoot}", "{packages}\DEVICE.SOC_QC8994.CITYMAN");
-	InjectDrivers("{windowsRoot}", "{packages}\DEVICE.USB.MMO_USBC");
+	InjectDrivers("{windowsRoot}", "{packages}\HARDWARE.USB.MMO_USBC");
 	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO");
-	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO_GRAPHICS_DESKTOP");
-	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO_SOC8994");
+	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO_MINIMAL");
+	InjectDrivers("{windowsRoot}", "{packages}\GRAPHICS.SOC_QC8994.MMO_DESKTOP");
+	InjectDrivers("{windowsRoot}", "{packages}\HARDWARE.CAMERA.MMO_8994");
 	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.8994");
 	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.8994_MINIMAL");
 	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.BASE");
@@ -111,7 +110,6 @@ InjectDriversProc
 	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_COMPONENTS");
 	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_RIL");
 	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS");
-	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.PHONE_SERVICE");
 }
 
 InstallBootShim
