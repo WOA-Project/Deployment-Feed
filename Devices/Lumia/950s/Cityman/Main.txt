@@ -13,8 +13,8 @@ Common
 
 ShowReadme
 {
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "CHANGELOG.zip"), "{packages}");
-	DisplayMarkdown("{packages}\CHANGELOG\changelog.md");
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "Changelog.zip"), "{packages}");
+	DisplayMarkdown("{packages}\Changelog\changelog.md");
 }
 
 InstallDevMenu
