@@ -2,6 +2,8 @@
 // Requires Disk "Disk" As "Lumia Disk"
 // Requires DoubleNumber:14:19:25 "DeploymentSize" As "Amount of space (GB) to allocate for the deployment"
 
+EnsureValidPartitionLayout
+
 Common
 {
 	packages = "Packages";
@@ -19,7 +21,7 @@ ShowReadme
 
 InstallDevMenu
 {
-	<Installing Developer Menu>
+	'Installing Developer Menu'
 	
 	CopyDirectory("{content}\Developer Menu", "{efiEspRoot}\Windows\System32\BOOT");
 	
@@ -36,13 +38,14 @@ InstallDevMenu
 
 PrepareDisk
 {
-	<Preparing partition layout>
+	'Preparing partition layout'
 	
 	RemovePartition("Disk={Disk}, Name='MSR'");
 	RemovePartition("Disk={Disk}, Name='Windows'");
 	RemovePartition("Disk={Disk}, Name='SYSTEM'");
 	
-	AllocateSpace("{Disk}", "DATA", "{DeploymentSize}");
+	data = GetPartition("{Disk}, Name='Data')
+	AllocateSpace("{Disk}", data, "{DeploymentSize}");
 	CreateWindowsPartitionLayout("{Disk}");
 	
 	systemPart = "Disk={Disk}, Name='SYSTEM'";
@@ -57,7 +60,7 @@ PrepareDisk
 
 DeployWindows
 {
-	<Deploying Windows>
+	'Deploying Windows'
 
 	ApplyWindowsImage("{WimFilePath}", "{WimFileIndex}", "{windowsRoot}");
 	MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
@@ -66,7 +69,7 @@ DeployWindows
 
 InjectDriversProc
 {
-	<Downloading drivers>
+	'Downloading drivers'
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.INPUT.SYNAPTICS_RMI4_F12_WIN10.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.SOC_QC8994.TALKMAN.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.USB.MMO_USBC.zip"), "{packages}");
@@ -89,7 +92,7 @@ InjectDriversProc
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL.zip"), "{packages}");
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS.zip"), "{packages}");
 	
-	<Injecting Drivers>
+	'Injecting Drivers'
 	InjectDrivers("{windowsRoot}", "{packages}\HARDWARE.INPUT.SYNAPTICS_RMI4_F12_WIN10");
 	InjectDrivers("{windowsRoot}", "{packages}\DEVICE.SOC_QC8994.TALKMAN");
 	InjectDrivers("{windowsRoot}", "{packages}\HARDWARE.USB.MMO_USBC");
@@ -115,13 +118,13 @@ InjectDriversProc
 
 InstallBootShim
 {
-	<Installing UEFI Loader>
+	'Installing UEFI Loader'
 	Copy("{content}\BootShim.efi", "{efiEspRoot}\EFI\Boot\BootShim.efi");
 }
 
 InstallUefi
 {
-	<Installing UEFI>
+	'Installing UEFI'
 	
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia950XLPkg", "MSM8992.UEFI.Lumia.950.zip"), "{packages}");
 	Copy("{packages}\MSM8992.UEFI.Lumia.950\ELF\UEFI.elf", "{efiEspRoot}\");
@@ -129,7 +132,7 @@ InstallUefi
 
 CopyDpp
 {
-	<Copying DPP To Windows>
+	'Copying DPP To Windows'
 	
 	dpp = "Disk={Disk}, Name='DPP'";
 	dppRoot = GetPartitionRoot("{dpp}");
@@ -139,7 +142,7 @@ CopyDpp
 
 ConfigureBcd
 {
-	<Configuring Boot>
+	'Configuring Boot'
 	
 	bcdWoa = "7619dcca-fafe-11d9-b411-000476eba25f";
 	bcdWinMobile = "7619dcc9-fafe-11d9-b411-000476eba25f";
