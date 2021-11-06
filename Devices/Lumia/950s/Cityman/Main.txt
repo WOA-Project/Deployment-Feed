@@ -96,7 +96,7 @@ InstallBootShim
 	Unzip(AzureDevOpsArtifact("LumiaWOA", "Boot Shim", 3, "UEFI Loader for 8992 and 8994"), "{packages}\UEFI Loader");
 
 	'Installing UEFI Loader'
-	Copy("{packages}\UEFI Loader\artifacts\ARM\Debug\BootShim.efi", "{efiEspRoot}\EFI\Boot\BootShim.efi");
+	Copy("{packages}\UEFI Loader\artifacts\UEFI Loader for 8992 and 8994\ARM\Debug\BootShim.efi", "{efiEspRoot}\EFI\Boot\BootShim.efi");
 }
 
 ConfigureBcd
