@@ -1,6 +1,6 @@
 // Requires WimFile "WimFile" As "Windows Image"
-// Requires Int "Disk" As "Lumia Disk"
-// Requires Double:14:19:25 "DeploymentSize" As "Amount of space (GB) to allocate for the deployment"
+// Requires Disk "Disk" As "Lumia Disk"
+// Requires Double:14:16:25 "DeploymentSize" As "Amount of space (GB) to allocate for the deployment"
 
 Main
 {
@@ -92,8 +92,11 @@ DeployWindows
 
 InstallBootShim
 {
+	'Downloading UEFI Loader (BootShim)'
+	Unzip(AzureDevOpsArtifact("LumiaWOA", "Boot Shim", 3, "UEFI Loader for 8992 and 8994"), "{packages}\UEFI Loader");
+
 	'Installing UEFI Loader'
-	Copy("{content}\BootShim.efi", "{efiEspRoot}\EFI\Boot\BootShim.efi");
+	Copy("{packages}\UEFI Loader\artifacts\ARM\Debug\BootShim.efi", "{efiEspRoot}\EFI\Boot\BootShim.efi");
 }
 
 ConfigureBcd
