@@ -1,6 +1,19 @@
 // Requires WimFile "WimFile" As "Windows Image"
 // Requires Disk "Disk" As "Lumia Disk"
-// Requires DoubleNumber:14:19:25 "DeploymentSize" As "Amount of space (GB) to allocate for the deployment"
+// Requires Double:14:16:25 "DeploymentSize" As "Amount of space (GB) to allocate for the deployment"
+
+Main
+{
+	Common();
+	ShowReadme();
+	ConfigureBcd();
+	InstallDevMenu();
+	PrepareDisk();
+	DeployWindows();
+	AddDrivers();
+	InstallBootShim();
+	InstallUefi();	
+}
 
 Common
 {
@@ -13,166 +26,160 @@ Common
 
 ShowReadme
 {
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "Changelog.zip"), "{packages}");
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "Changelog.zip"), packages);
 	DisplayMarkdown("{packages}\Changelog\changelog.md");
 }
 
 InstallDevMenu
 {
-	<Installing Developer Menu>
+	'Installing Developer Menu'
 	
 	CopyDirectory("{content}\Developer Menu", "{efiEspRoot}\Windows\System32\BOOT");
 	
 	devMenuGuid = "7619dccc-fafe-11d9-b411-000476eba25f";
 	efiBcdStore = "{efiEspRoot}\EFI\Microsoft\Boot\BCD";
 	
-	BcdEditCreate("{efiBcdStore}", "{devMenuGuid}", "/d ""Developer Menu"" /application BOOTAPP");
-	BcdEdit("{efiBcdStore}", "/set {{{devMenuGuid}}} path \Windows\System32\BOOT\developermenu.efi");
-	BcdEdit("{efiBcdStore}", "/set {{{devMenuGuid}}} device partition={efiEspRoot}");
-	BcdEdit("{efiBcdStore}", "/set {{{devMenuGuid}}} nointegritychecks on");
-	BcdEdit("{efiBcdStore}", "/displayorder {{{devMenuGuid}}} /addlast");
+	BcdEditCreate(efiBcdStore, "{devMenuGuid}", "/d ""Developer Menu"" /application BOOTAPP");
+	BcdEdit(efiBcdStore, "/set {{{devMenuGuid}}} path \Windows\System32\BOOT\developermenu.efi");
+	BcdEdit(efiBcdStore, "/set {{{devMenuGuid}}} device partition={efiEspRoot}");
+	BcdEdit(efiBcdStore, "/set {{{devMenuGuid}}} nointegritychecks on");
+	BcdEdit(efiBcdStore, "/displayorder {{{devMenuGuid}}} /addlast");
 }
 
 PrepareDisk
 {
-	<Preparing partition layout>
+	'Preparing partition layout'
 	
-	RemovePartition("Disk={Disk}, Name='MSR'");
-	RemovePartition("Disk={Disk}, Name='Windows'");
-	RemovePartition("Disk={Disk}, Name='SYSTEM'");
+	RemovePartitionSafe("Disk={Disk}, Name='MSR'");
+	RemovePartitionSafe("Disk={Disk}, Name='Windows'");
+	RemovePartitionSafe("Disk={Disk}, Name='SYSTEM'");
 	
-	AllocateSpace("{Disk}", "DATA", "{DeploymentSize}");
-	CreateWindowsPartitionLayout("{Disk}");
+	if (GetDiskSize(Disk) < SizeFromString("{DeploymentSize}GB"))
+	{
+		'Trying to allocate required space from the Data partition'
+
+		data = "Disk={Disk}, Name='Data'";
+		if (PartitionExists(data)) 
+		{
+			'Allocating space'
+			AllocateSpace(data, "{DeploymentSize}GB");	
+		}	
+		else 
+		{
+			Fail("Could not allocate the required space in the phone. We need at least {DeploymentSize}GB of free space to deploy Windows");
+		}
+	} 
+		
+	systemPart = CreateGptPartition(Disk, "Esp", "SYSTEM", "100MB");
+	CreateGptPartition(Disk, "Reserved", "MSR", "16MB");
+	windowsPart = CreateGptPartition(Disk, "Basic", "Windows", "*");
 	
-	systemPart = "Disk={Disk}, Name='SYSTEM'";
-	systemRoot = GetPartitionRoot("{systemPart}");
+	systemRoot = GetPartitionRoot(systemPart);
+	windowsRoot = GetPartitionRoot(windowsPart);
 	
-	windowsPart = "Disk={Disk}, Name='Windows'";
-	windowsRoot = GetPartitionRoot("{windowsPart}");
-	
-	Format("{systemPart}", "Fat32", "SYSTEM");
-	Format("{windowsPart}", "Ntfs", "Windows");
+	Format(systemPart, "Fat32", "SYSTEM");
+	Format(windowsPart, "Ntfs", "Windows");
 }
 
 DeployWindows
 {
-	<Deploying Windows>
+	'Deploying Windows'
 
-	ApplyWindowsImage("{WimFilePath}", "{WimFileIndex}", "{windowsRoot}");
+	ApplyWindowsImage(WimFilePath, WimFileIndex, windowsRoot);
 	MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
 	SetGptType("{systemPart}", "Esp");
 }
 
-InjectDriversProc
-{
-	<Downloading drivers>
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.INPUT.SYNAPTICS_RMI4_F12_WIN10.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.SOC_QC8994.CITYMAN.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.USB.MMO_USBC.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC8994.MMO.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC8994.MMO_MINIMAL.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "GRAPHICS.SOC_QC8994.MMO_DESKTOP.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.CAMERA.MMO_8994.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.8994.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.8994_MINIMAL.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.BASE.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.BASE_MINIMAL.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.LATE_SOC.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.MMO.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC8994.MMO_DESKTOP.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.BASE.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.EXTRAS.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MMO_EXTRAS.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_BRIDGE.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_COMPONENTS.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL.zip"), "{packages}");
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS.zip"), "{packages}");
-
-	<Injecting Drivers>
-	InjectDrivers("{windowsRoot}", "{packages}\HARDWARE.INPUT.SYNAPTICS_RMI4_F12_WIN10");
-	InjectDrivers("{windowsRoot}", "{packages}\DEVICE.SOC_QC8994.CITYMAN");
-	InjectDrivers("{windowsRoot}", "{packages}\HARDWARE.USB.MMO_USBC");
-	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO");
-	InjectDrivers("{windowsRoot}", "{packages}\OEM.SOC_QC8994.MMO_MINIMAL");
-	InjectDrivers("{windowsRoot}", "{packages}\GRAPHICS.SOC_QC8994.MMO_DESKTOP");
-	InjectDrivers("{windowsRoot}", "{packages}\HARDWARE.CAMERA.MMO_8994");
-	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.8994");
-	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.8994_MINIMAL");
-	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.BASE");
-	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.BASE_MINIMAL");
-	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.LATE_SOC");
-	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.MMO");
-	InjectDrivers("{windowsRoot}", "{packages}\PLATFORM.SOC_QC8994.MMO_DESKTOP");
-	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.BASE");
-	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.EXTRAS");
-	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MMO_EXTRAS");
-	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_BRIDGE");
-	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_COMPONENTS");
-	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_RIL");
-	InjectDrivers("{windowsRoot}", "{packages}\SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS");
-}
-
 InstallBootShim
 {
-	<Installing UEFI Loader>
-	Copy("{content}\BootShim.efi", "{efiEspRoot}\EFI\Boot\BootShim.efi");
-}
+	'Downloading UEFI Loader (BootShim)'
+	Unzip(AzureDevOpsArtifact("LumiaWOA", "Boot Shim", 3, "UEFI Loader for 8992 and 8994"), "{packages}\UEFI Loader");
 
-InstallUefi
-{
-	<Installing UEFI>
-	
-	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia950XLPkg", "MSM8994.UEFI.Lumia.950.XL.zip"), "{packages}");
-	Copy("{packages}\MSM8994.UEFI.Lumia.950.XL\ELF\UEFI.elf", "{efiEspRoot}\");
-}
-
-CopyDpp
-{
-	<Copying DPP to Windows>
-	
-	dpp = "Disk={Disk}, Name='DPP'";
-	dppRoot = GetPartitionRoot("{dpp}");
-	CopyDirectory("{dppRoot}", "{windowsRoot}\DPP");
-	Unmount("{dpp}");
+	'Installing UEFI Loader'
+	Copy("{packages}\UEFI Loader\artifacts\UEFI Loader for 8992 and 8994\ARM\Debug\BootShim.efi", "{efiEspRoot}\EFI\Boot\BootShim.efi");
 }
 
 ConfigureBcd
 {
-	<Configuring Boot>
+	'Configuring Boot'
 	
 	bcdWoa = "7619dcca-fafe-11d9-b411-000476eba25f";
 	bcdWinMobile = "7619dcc9-fafe-11d9-b411-000476eba25f";
 	efiBcdStore = "{efiEspRoot}\EFI\Microsoft\Boot\BCD";
 	
-	BcdEditCreate("{efiBcdStore}", "{bcdWoa}", "/d ""Windows 10"" /application BOOTAPP");
-	BcdEdit("{efiBcdStore}", "/set {{{bcdWoa}}} path \EFI\boot\BootShim.efi");
-	BcdEdit("{efiBcdStore}", "/set {{{bcdWoa}}} device partition={efiEspRoot}");
-	BcdEdit("{efiBcdStore}", "/set {{{bcdWoa}}} nointegritychecks on");
+	BcdEditCreate(efiBcdStore, bcdWoa, "/d ""Windows 10"" /application BOOTAPP");
+	BcdEdit(efiBcdStore, "/set {{{bcdWoa}}} path \EFI\boot\BootShim.efi");
+	BcdEdit(efiBcdStore, "/set {{{bcdWoa}}} device partition={efiEspRoot}");
+	BcdEdit(efiBcdStore, "/set {{{bcdWoa}}} nointegritychecks on");
 	
-	BcdEdit("{efiBcdStore}", "/set {{{bcdWinMobile}}} path dummy");
-	BcdEdit("{efiBcdStore}", "/set {{{bcdWinMobile}}} description ""Dummy, please ignore""");
+	BcdEdit(efiBcdStore, "/set {{{bcdWinMobile}}} path dummy");
+	BcdEdit(efiBcdStore, "/set {{{bcdWinMobile}}} description ""Dummy, please ignore""");
 	
-	BcdEdit("{efiBcdStore}", "/set {{bootmgr}} displaybootmenu on");
-	BcdEdit("{efiBcdStore}", "/deletevalue {{bootmgr}} customactions");
-	BcdEdit("{efiBcdStore}", "/deletevalue {{bootmgr}} processcustomactionsfirst");
+	BcdEdit(efiBcdStore, "/set {{bootmgr}} displaybootmenu on");
+	BcdEdit(efiBcdStore, "/deletevalue {{bootmgr}} customactions");
+	BcdEdit(efiBcdStore, "/deletevalue {{bootmgr}} processcustomactionsfirst");
 	
-	BcdEdit("{efiBcdStore}", "/displayorder {{{bcdWoa}}}");
-	BcdEdit("{efiBcdStore}", "/displayorder {{{bcdWinMobile}}} /addlast");
-	BcdEdit("{efiBcdStore}", "/default {{{bcdWoa}}}");
-	BcdEdit("{efiBcdStore}", "/timeout 30");
+	BcdEdit(efiBcdStore, "/displayorder {{{bcdWoa}}}");
+	BcdEdit(efiBcdStore, "/displayorder {{{bcdWinMobile}}} /addlast");
+	BcdEdit(efiBcdStore, "/default {{{bcdWoa}}}");
+	BcdEdit(efiBcdStore, "/timeout 30");
 }
 
-Main
+AddDrivers
 {
-	EnsureValidPartitionLayout("{Disk}");
-	Common();
-	ShowReadme();
-	ConfigureBcd();
-	InstallDevMenu();
-	PrepareDisk();
-	DeployWindows();
-	InjectDriversProc();
-	InstallBootShim();
-	InstallUefi();	
-	CopyDpp();	
+	'Downloading drivers'
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.INPUT.SYNAPTICS_RMI4_F12_WIN10.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.SOC_QC899X.CITYMAN.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "DEVICE.SOC_QC899X.CITYMAN_DESKTOP.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.USB.MMO_USBC.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC899X.MMO.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC899X.MMO_MINIMAL.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "GRAPHICS.SOC_QC899X.MMO_DESKTOP.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.CAMERA.MMO_8994.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.8994.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.8994_MINIMAL.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.BASE.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.BASE_MINIMAL.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.LATE_SOC.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.MMO.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.MMO_DESKTOP.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.BASE.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.EXTRAS.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MMO_EXTRAS.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_BRIDGE.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_COMPONENTS.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS.zip"), packages);
+
+	'Injecting Drivers'
+	InjectDrivers(windowsRoot, "{packages}\HARDWARE.INPUT.SYNAPTICS_RMI4_F12_WIN10");
+	InjectDrivers(windowsRoot, "{packages}\DEVICE.SOC_QC899X.CITYMAN");
+	InjectDrivers(windowsRoot, "{packages}\DEVICE.SOC_QC899X.CITYMAN_DESKTOP");
+	InjectDrivers(windowsRoot, "{packages}\HARDWARE.USB.MMO_USBC");
+	InjectDrivers(windowsRoot, "{packages}\OEM.SOC_QC899X.MMO");
+	InjectDrivers(windowsRoot, "{packages}\OEM.SOC_QC899X.MMO_MINIMAL");
+	InjectDrivers(windowsRoot, "{packages}\GRAPHICS.SOC_QC899X.MMO_DESKTOP");
+	InjectDrivers(windowsRoot, "{packages}\HARDWARE.CAMERA.MMO_8994");
+	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.8994");
+	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.8994_MINIMAL");
+	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.BASE");
+	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.BASE_MINIMAL");
+	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.LATE_SOC");
+	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.MMO");
+	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.MMO_DESKTOP");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.BASE");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.EXTRAS");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MMO_EXTRAS");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MOBILE_BRIDGE");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MOBILE_COMPONENTS");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MOBILE_RIL");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS");
+}
+
+InstallUefi
+{
+	'Installing UEFI'
+	
+	UnzipRoot(GitHubLatestReleaseAsset("WOA-Project", "Lumia950XLPkg", "MSM8994.UEFI.Lumia.950.XL.zip"), packages);
+	Copy("{packages}\MSM8994.UEFI.Lumia.950.XL\ELF\UEFI.elf", "{efiEspRoot}\");
 }
