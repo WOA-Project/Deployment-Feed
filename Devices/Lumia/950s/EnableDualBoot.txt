@@ -1,6 +1,0 @@
-// Requires Disk "Disk" As "Lumia Disk"
-
-Main
-{
-	EnableDualBoot("{Disk}");
-}
