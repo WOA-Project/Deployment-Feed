@@ -1,6 +1,6 @@
-// Requires WimFile "WimFile" As "Windows Image"
-// Requires Disk "Disk" As "Lumia Disk"
-// Requires Double:14:16:25 "DeploymentSize" As "Amount of space (GB) to allocate for the deployment"
+// Requires WimFile "WimFile" As "Choose the .wim (or .esd) file you want to deploy to your Lumia"
+// Requires Disk "Disk" As "Select the disk drive that is assigned to your Lumia Phone. Remember that you need to put your phone in Mass Storage Mode first"
+// Requires Double:14:16:25 "DeploymentSize" As "Choose the size (GB) to allocate for the deployment"
 
 Main
 {
