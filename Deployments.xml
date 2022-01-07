@@ -31,5 +31,35 @@
 				</Deployment>
 			</Deployments>
 		</Device>
+		<Device>
+			<Code>RPi3</Code>
+			<FriendlyName>Raspberry Pi 3</FriendlyName>
+			<Name>Raspberry Pi 3</Name>
+			<Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/rpi3.png?raw=true</Icon>
+			<Id>2</Id>
+			<Deployments exs:type="Deployment^1">
+				<Deployment>
+					<ScriptPath>Devices\RaspberryPi\3\Main.txt</ScriptPath>
+					<Title>Standard</Title>
+					<Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true</Icon>
+					<Description>Deploys Windows into a Micro SD card to be used in Raspberry Pi 3</Description>
+				</Deployment>
+			</Deployments>
+		</Device>
+		<Device>
+			<Code>RPi3</Code>
+			<FriendlyName>Raspberry Pi 4</FriendlyName>
+			<Name>Raspberry Pi 4</Name>
+			<Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/rpi4.png?raw=true</Icon>
+			<Id>2</Id>
+			<Deployments exs:type="Deployment^1">
+				<Deployment>
+					<ScriptPath>Devices\RaspberryPi\4\Main.txt</ScriptPath>
+					<Title>Standard</Title>
+					<Icon>https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true</Icon>
+					<Description>Deploys Windows into a Micro SD card to be used in Raspberry Pi 4</Description>
+				</Deployment>
+			</Deployments>
+		</Device>
 	</Devices>
 </DeployerStore>

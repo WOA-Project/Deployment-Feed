@@ -1,0 +1,50 @@
+// Requires WimFile "WimFile" As "Choose the .wim (or .esd) file you want to deploy to your Raspberry Pi"
+// Requires Disk "Disk" As "Select the MicroSD Card where you want to deploy"
+
+Main
+{
+	SetupDrive();
+	SetupUefi();
+	DeployWindows();
+	InstallDrivers();	
+}
+
+SetupUefi
+{
+	'Setting up UEFI'
+	Unzip(GitHubLatestReleaseAsset("pftf", "RPi4", "RPi4_UEFI_Firmware.*"), "Packages", "UEFI");	
+	CopyDirectory("Packages\UEFI", "{systemRoot}");
+}
+
+SetupDrive
+{
+	'Setting up drive'
+	SetPartitionLayout(Disk, "GPT");	
+
+	systemPart = CreateGptPartition(Disk, "Basic", "SYSTEM", "100MB");
+	systemRoot = GetPartitionRoot(systemPart);
+
+	windowsPart = CreateGptPartition(Disk, "Basic", "Windows");
+	windowsRoot = GetPartitionRoot(windowsPart);
+
+	Format(systemPart, "Fat32", "SYSTEM");
+	Format(windowsPart, "Ntfs", "Windows");	
+}
+
+DeployWindows
+{
+	'Deploying Windows'
+	systemRoot = GetPartitionRoot(systemPart);
+	windowsRoot = GetPartitionRoot(windowsPart);
+	ApplyWindowsImage(WimFilePath, WimFileIndex, windowsRoot);
+	MakeWindowsBootable("{systemRoot}", "{windowsRoot}\Windows");
+	SetGptType("{systemPart}", "Esp");
+}
+
+InstallDrivers 
+{
+	'Downloading drivers'
+	Unzip(GitHubLatestReleaseAsset("worproject", "RPi-Windows-Drivers", "RPi4_Windows_ARM64_Drivers*"), "Packages", "Drivers");
+	'Injecting Drivers'
+	InjectDrivers(windowsRoot, "Packages\Drivers");
+}
