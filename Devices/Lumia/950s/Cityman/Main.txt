@@ -141,6 +141,7 @@ AddDrivers
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.BASE_MINIMAL.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.LATE_SOC.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.MMO.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.MMO_DESKTOP.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.BASE.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.EXTRAS.zip"), packages);
 
@@ -158,6 +159,7 @@ AddDrivers
 	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.BASE_MINIMAL");
 	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.LATE_SOC");
 	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.MMO");
+	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.MMO_DESKTOP");
 	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.BASE");
 	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.EXTRAS");
 
