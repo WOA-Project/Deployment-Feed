@@ -135,6 +135,7 @@ AddDrivers
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC899X.MMO.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "OEM.SOC_QC899X.MMO_MINIMAL.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "GRAPHICS.SOC_QC899X.MMO_DESKTOP.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "HARDWARE.CAMERA.MMO_8992.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.8992.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.8992_MINIMAL.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.BASE.zip"), packages);
@@ -144,7 +145,11 @@ AddDrivers
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "PLATFORM.SOC_QC899X.MMO_DESKTOP.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.BASE.zip"), packages);
 	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.EXTRAS.zip"), packages);
-
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MMO_EXTRAS.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_BRIDGE.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_COMPONENTS.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL.zip"), packages);
+	Unzip(GitHubLatestReleaseAsset("WOA-Project", "Lumia-Drivers", "SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS.zip"), packages);
 
 	'Injecting Drivers'
 	InjectDrivers(windowsRoot, "{packages}\HARDWARE.INPUT.SYNAPTICS_RMI4_F12_WIN10");
@@ -154,6 +159,7 @@ AddDrivers
 	InjectDrivers(windowsRoot, "{packages}\OEM.SOC_QC899X.MMO");
 	InjectDrivers(windowsRoot, "{packages}\OEM.SOC_QC899X.MMO_MINIMAL");
 	InjectDrivers(windowsRoot, "{packages}\GRAPHICS.SOC_QC899X.MMO_DESKTOP");
+	InjectDrivers(windowsRoot, "{packages}\HARDWARE.CAMERA.MMO_8992");
 	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.8992");
 	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.8992_MINIMAL");
 	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.BASE");
@@ -163,6 +169,11 @@ AddDrivers
 	InjectDrivers(windowsRoot, "{packages}\PLATFORM.SOC_QC899X.MMO_DESKTOP");
 	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.BASE");
 	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.EXTRAS");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MMO_EXTRAS");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MOBILE_BRIDGE");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MOBILE_COMPONENTS");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MOBILE_RIL");
+	InjectDrivers(windowsRoot, "{packages}\SUPPORT.DESKTOP.MOBILE_RIL_EXTRAS");
 }
 
 InstallUefi
